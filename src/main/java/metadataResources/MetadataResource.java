@@ -71,6 +71,16 @@ public class MetadataResource {
 						xmlapextriggerMembers
 								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")));
 						xmlapextriggertype.appendChild(xmlapextriggerMembers);
+						
+						Element xmlapextriggercreatedby = doc.createElement("createdbyid");
+						xmlapextriggercreatedby
+								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("CreatedById")));
+						xmlapextriggertype.appendChild(xmlapextriggercreatedby);
+						
+						Element xmlapextriggerlastmodi = doc.createElement("lastmodifieddate");
+						xmlapextriggerlastmodi
+								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("LastModifiedDate")));
+						xmlapextriggertype.appendChild(xmlapextriggerlastmodi);
 
 					} catch (Exception e) {
 						e.printStackTrace();
