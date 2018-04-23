@@ -1251,4 +1251,29 @@ public class DataWarehouse {
 		}
 		return jsonArray;
 	}
+	public static String getUserFullName(JSONObject loginObject,String id) {
+		String  userfullname = null;
+		String ObjectRestURL = ToolingQueryList.getUserFullName(id);
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		String instanceURL = loginObject.getString("instance_url");
+		String AccessToken = loginObject.getString("access_token");
+		Header oauthHeader = new BasicHeader("Authorization", "OAuth " + AccessToken);
+		String uri = instanceURL + RestResourceURL.getRestQueryURL(ObjectRestURL);
+		HttpResponse response = null;
+		HttpGet httpget = new HttpGet(uri);
+		httpget.addHeader(oauthHeader);
+		try {
+			response = httpClient.execute(httpget);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				String Result = EntityUtils.toString(response.getEntity());
+				JSONObject jsonObject = new JSONObject(Result);
+				JSONArray jsonArray = jsonObject.getJSONArray("records");
+				if (jsonArray.length() > 0)
+					userfullname = jsonArray.getJSONObject(0).getString("Name");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return userfullname;
+	}
 }

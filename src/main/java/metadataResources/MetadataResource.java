@@ -1,6 +1,8 @@
 package metadataResources;
 
 import java.io.File;
+import java.util.HashSet;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,6 +12,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import dataContainer.DataWarehouse;
+import dataContainer.RestResourceURL;
 
 public class MetadataResource {
 	Document doc;
@@ -37,14 +40,20 @@ public class MetadataResource {
 				xmlroot.appendChild(xmlapexclasstype);
 
 				try {
-
+					String userfullname="";
+					HashSet <String> uniquecharset= new HashSet<String>();
 					for (int i = 0; i < apexclassArray.length(); i++) {
+						
+						if(uniquecharset.add(apexclassArray.getJSONObject(i).getString("LastModifiedById")))
+							userfullname = DataWarehouse.getUserFullName(loginObject, apexclassArray.getJSONObject(i).getString("LastModifiedById"));
+						
 						Element xmlapexclassMembers = doc.createElement("members");
 						xmlapexclassMembers
-								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+apexclassArray.getJSONObject(i).getString("CreatedById")+"###"+apexclassArray.getJSONObject(i).getString("LastModifiedDate")));
+								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+apexclassArray.getJSONObject(i).getString("LastModifiedDate")));
 						xmlapexclasstype.appendChild(xmlapexclassMembers);
 
 					}
+					
 					Element xmlapexclassName = doc.createElement("name");
 					xmlapexclassName.appendChild(doc.createTextNode("ApexClass"));
 					xmlapexclasstype.appendChild(xmlapexclassName);
@@ -64,12 +73,16 @@ public class MetadataResource {
 			if (apexTriggerArray.length() > 0) {
 				Element xmlapextriggertype = doc.createElement("types");
 				xmlroot.appendChild(xmlapextriggertype);
-
+				String userfullname="";
+				HashSet < String> uniquecharset= new HashSet<String>();
 				for (int i = 0; i < apexTriggerArray.length(); i++) {
 					try {
+						if(uniquecharset.add(apexTriggerArray.getJSONObject(i).getString("LastModifiedById")))
+							userfullname = DataWarehouse.getUserFullName(loginObject, apexTriggerArray.getJSONObject(i).getString("LastModifiedById"));
+						
 						Element xmlapextriggerMembers = doc.createElement("members");
 						xmlapextriggerMembers
-								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")+"###"+apexTriggerArray.getJSONObject(i).getString("CreatedById")+"###"+apexTriggerArray.getJSONObject(i).getString("LastModifiedDate")));
+								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexTriggerArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapextriggertype.appendChild(xmlapextriggerMembers);
 	
 					} catch (Exception e) {
@@ -372,16 +385,17 @@ public class MetadataResource {
 			if (customFieldArray.length() > 0) {
 				Element xmlcustomfieldtype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomfieldtype);
-
+				HashSet < String> uniqueTableEnumOrId= new HashSet<String>();
 				String customObjectName = "";
 				for (int j = 0; j < customFieldArray.length(); j++) {
 					if (customFieldArray.getJSONObject(j).getString("TableEnumOrId").matches("^[A-Za-z]+[0-9]*"))
 						customObjectName = customFieldArray.getJSONObject(j).getString("TableEnumOrId");
 					else {
-						customObjectName = DataWarehouse.getCustomObjectName(loginObject,
-								customFieldArray.getJSONObject(j).getString("TableEnumOrId"));
+						if(uniqueTableEnumOrId.add(customFieldArray.getJSONObject(j).getString("TableEnumOrId")))
+							customObjectName = DataWarehouse.getCustomObjectName(loginObject,customFieldArray.getJSONObject(j).getString("TableEnumOrId"));
 						customObjectName += "__c";
 					}
+					
 				
 					Element xmlcustomfieldMembers = doc.createElement("members");
 					xmlcustomfieldMembers.appendChild(doc.createTextNode(customObjectName + "."

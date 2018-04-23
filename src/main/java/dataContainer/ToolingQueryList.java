@@ -6,40 +6,40 @@ public class ToolingQueryList {
 		if (SFDCUserID.equalsIgnoreCase("") || SFDCUserID == null) {
 			if ((startdate.equalsIgnoreCase("") || startdate == null)
 					&& (enddate.equalsIgnoreCase("") || enddate == null)) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+order+by+DeveloperName+asc";
 
 			} else if (enddate.equalsIgnoreCase("") || enddate == null) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + startdate + "+order+by+DeveloperName+asc";
 
 			} else if (startdate.equalsIgnoreCase("") || startdate == null) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + enddate + "+order+by+DeveloperName+asc";
 			} else {
 
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + startdate + "+and+LastModifiedDate%3C" + enddate
 						+ "+order+by+DeveloperName+asc";
 			}
 		} else {
 			if ((startdate.equalsIgnoreCase("") || startdate == null)
 					&& (enddate.equalsIgnoreCase("") || enddate == null)) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedById%3D'" + SFDCUserID + "'+order+by+DeveloperName+asc";
 
 			} else if (enddate.equalsIgnoreCase("") || enddate == null) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + startdate + "+and+LastModifiedById%3D'" + SFDCUserID
 						+ "'+order+by+DeveloperName+asc";
 
 			} else if (startdate.equalsIgnoreCase("") || startdate == null) {
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + enddate + "+and+LastModifiedById%3D'" + SFDCUserID
 						+ "'+order+by+DeveloperName+asc";
 			} else {
                 
-				return "select+Id,DeveloperName,CreatedById,CreatedDate,LastModifiedDate+from+" + objectName
+				return "select+Id,DeveloperName,LastModifiedById,CreatedDate,LastModifiedDate+from+" + objectName
 						+ "+where+LastModifiedDate%3E" + startdate + "+and+LastModifiedDate%3C" + enddate
 						+ "+and+LastModifiedById%3D'" + SFDCUserID + "'+order+by+DeveloperName+asc";
 			}
@@ -144,36 +144,36 @@ public class ToolingQueryList {
 
 			if ((startdate.equalsIgnoreCase("") || startdate == null)
 					&& (enddate.equalsIgnoreCase("") || enddate == null)) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+order+by+Name+asc";
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+order+by+Name+asc";
 
 			} else if (enddate.equalsIgnoreCase("") || enddate == null) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "where+LastModifiedDate%3E"
 						+ startdate + "+order+by+Name+asc";
 
 			} else if (startdate.equalsIgnoreCase("") || startdate == null) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
 						+ enddate + "+order+by+Name+asc";
 			} else {
 
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
 						+ startdate + "+and+LastModifiedDate%3C" + enddate + "+order+by+Name+asc";
 			}
 		} else {
 			if ((startdate.equalsIgnoreCase("") || startdate == null)
 					&& (enddate.equalsIgnoreCase("") || enddate == null)) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedById%3D'"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedById%3D'"
 						+ SFDCUserID + "'+order+by+Name+asc";
 
 			} else if (enddate.equalsIgnoreCase("") || enddate == null) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
 						+ startdate + "+and+LastModifiedById%3D'" + SFDCUserID + "'+order+by+Name+asc";
 
 			} else if (startdate.equalsIgnoreCase("") || startdate == null) {
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
 						+ enddate + "+and+LastModifiedById%3D'" + SFDCUserID + "'+order+by+Name+asc";
 			} else {
 
-				return "select+Id,Name,CreatedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
+				return "select+Id,Name,LastModifiedById,LastModifiedDate+from+" + objectName + "+where+LastModifiedDate%3E"
 						+ startdate + "+and+LastModifiedDate%3C" + enddate + "+and+LastModifiedById%3D'" + SFDCUserID
 						+ "'+order+by+Name+asc";
 			}
@@ -182,7 +182,7 @@ public class ToolingQueryList {
 	}
 
 	public static String getObjectNameQuery(String CustomObjectId) {
-		return "select+Id,CreatedById,DeveloperName+from+CustomObject+where+Id='" + CustomObjectId + "'";
+		return "select+Id,DeveloperName+from+CustomObject+where+Id='" + CustomObjectId + "'";
 	}
 
 	public static String getCustomObjects() {
@@ -822,9 +822,14 @@ public class ToolingQueryList {
 		return query;
 
 	}
-public static String getUserCred()
+	public static String getUserCred()
 	{
 		return "select+Id,Name,Username,CreatedById,LastModifiedDate+from+User+order+by+Name+asc";
+
+	}
+	public static String getUserFullName(String id)
+	{
+		return "select+Id,Name+from+User+where+Id='"+ id + "'";
 
 	}
 	// -------------------------monty end-----------------------------
