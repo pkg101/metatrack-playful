@@ -49,7 +49,7 @@ public class MetadataResource {
 						
 						Element xmlapexclassMembers = doc.createElement("members");
 						xmlapexclassMembers
-								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+apexclassArray.getJSONObject(i).getString("LastModifiedDate")));
+								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexclassArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapexclasstype.appendChild(xmlapexclassMembers);
 
 					}
