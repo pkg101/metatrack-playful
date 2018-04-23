@@ -41,7 +41,7 @@ public class MetadataResource {
 					for (int i = 0; i < apexclassArray.length(); i++) {
 						Element xmlapexclassMembers = doc.createElement("members");
 						xmlapexclassMembers
-								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")));
+								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+apexclassArray.getJSONObject(i).getString("CreatedById")+"###"+apexclassArray.getJSONObject(i).getString("LastModifiedDate")));
 						xmlapexclasstype.appendChild(xmlapexclassMembers);
 
 					}
@@ -69,19 +69,9 @@ public class MetadataResource {
 					try {
 						Element xmlapextriggerMembers = doc.createElement("members");
 						xmlapextriggerMembers
-								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")));
+								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")+"###"+apexTriggerArray.getJSONObject(i).getString("CreatedById")+"###"+apexTriggerArray.getJSONObject(i).getString("LastModifiedDate")));
 						xmlapextriggertype.appendChild(xmlapextriggerMembers);
-						
-						Element xmlapextriggercreatedby = doc.createElement("createdbyid");
-						xmlapextriggercreatedby
-								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("CreatedById")));
-						xmlapextriggertype.appendChild(xmlapextriggercreatedby);
-						
-						Element xmlapextriggerlastmodi = doc.createElement("lastmodifieddate");
-						xmlapextriggerlastmodi
-								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("LastModifiedDate")));
-						xmlapextriggertype.appendChild(xmlapextriggerlastmodi);
-
+	
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
