@@ -1,8 +1,7 @@
 package metadataResources;
 
 import java.io.File;
-import java.util.HashSet;
-
+import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -40,20 +39,26 @@ public class MetadataResource {
 				xmlroot.appendChild(xmlapexclasstype);
 
 				try {
-					String userfullname="";
-					HashSet <String> uniquecharset= new HashSet<String>();
+					String userfullname = "";
+					HashMap<String, String> uniquemap = new HashMap<String, String>();
+
 					for (int i = 0; i < apexclassArray.length(); i++) {
-						
-						if(uniquecharset.add(apexclassArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, apexclassArray.getJSONObject(i).getString("LastModifiedById"));
-						
+						if (uniquemap.containsKey(apexclassArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(apexclassArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									apexclassArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(apexclassArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlapexclassMembers = doc.createElement("members");
 						xmlapexclassMembers
-								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexclassArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(apexclassArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												apexclassArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapexclasstype.appendChild(xmlapexclassMembers);
 
 					}
-					
+					uniquemap.clear();
 					Element xmlapexclassName = doc.createElement("name");
 					xmlapexclassName.appendChild(doc.createTextNode("ApexClass"));
 					xmlapexclasstype.appendChild(xmlapexclassName);
@@ -68,23 +73,31 @@ public class MetadataResource {
 	public void getApexTriggers(JSONObject loginObject, String sfdcuserid, String startdate, String enddate)
 			throws Exception {
 		JSONArray apexTriggerArray = DataWarehouse.getApexTriggerList(loginObject, startdate, enddate, sfdcuserid);
-	
+
 		if (apexTriggerArray != null) {
 			if (apexTriggerArray.length() > 0) {
 				Element xmlapextriggertype = doc.createElement("types");
 				xmlroot.appendChild(xmlapextriggertype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < apexTriggerArray.length(); i++) {
 					try {
-						if(uniquecharset.add(apexTriggerArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, apexTriggerArray.getJSONObject(i).getString("LastModifiedById"));
-						
+						if (uniquemap.containsKey(apexTriggerArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(apexTriggerArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									apexTriggerArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(apexTriggerArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlapextriggerMembers = doc.createElement("members");
 						xmlapextriggerMembers
-								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexTriggerArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(apexTriggerArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												apexTriggerArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapextriggertype.appendChild(xmlapextriggerMembers);
-	
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -105,15 +118,22 @@ public class MetadataResource {
 			if (apexPageArray.length() > 0) {
 				Element xmlapexPagetype = doc.createElement("types");
 				xmlroot.appendChild(xmlapexPagetype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < apexPageArray.length(); i++) {
 					try {
-						if(uniquecharset.add(apexPageArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, apexPageArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(apexPageArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(apexPageArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									apexPageArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(apexPageArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlapexPageMembers = doc.createElement("members");
 						xmlapexPageMembers
-								.appendChild(doc.createTextNode(apexPageArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexPageArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(apexPageArray.getJSONObject(i).getString("Name") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												apexPageArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapexPagetype.appendChild(xmlapexPageMembers);
 
 					} catch (Exception e) {
@@ -136,15 +156,24 @@ public class MetadataResource {
 			if (apexComponentArray.length() > 0) {
 				Element xmlapexComponenttype = doc.createElement("types");
 				xmlroot.appendChild(xmlapexComponenttype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < apexComponentArray.length(); i++) {
 					try {
-						if(uniquecharset.add(apexComponentArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, apexComponentArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(apexComponentArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(apexComponentArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									apexComponentArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(apexComponentArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlapexComponentMembers = doc.createElement("members");
 						xmlapexComponentMembers
-								.appendChild(doc.createTextNode(apexComponentArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(apexComponentArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(apexComponentArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												apexComponentArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlapexComponenttype.appendChild(xmlapexComponentMembers);
 
 					} catch (Exception e) {
@@ -168,16 +197,25 @@ public class MetadataResource {
 			if (assignmentRuleArray.length() > 0) {
 				Element xmlassignmentRuletype = doc.createElement("types");
 				xmlroot.appendChild(xmlassignmentRuletype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < assignmentRuleArray.length(); i++) {
 					try {
-						if(uniquecharset.add(assignmentRuleArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlassignmentRuleMembers = doc.createElement("members");
 						xmlassignmentRuleMembers.appendChild(
 								doc.createTextNode(assignmentRuleArray.getJSONObject(i).getString("EntityDefinitionId")
-										+ "." + assignmentRuleArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(assignmentRuleArray.getJSONObject(i).getString("LastModifiedDate"))));
+										+ "." + assignmentRuleArray.getJSONObject(i).getString("Name") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												assignmentRuleArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlassignmentRuletype.appendChild(xmlassignmentRuleMembers);
 
 					} catch (Exception e) {
@@ -201,15 +239,25 @@ public class MetadataResource {
 			if (auraDefinitionBundleArray.length() > 0) {
 				Element xmlAuraDefinitionBundletype = doc.createElement("types");
 				xmlroot.appendChild(xmlAuraDefinitionBundletype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				try {
 					for (int i = 0; i < auraDefinitionBundleArray.length(); i++) {
-						if(uniquecharset.add(auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(
+								auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlAuraDefinitionBundleMembers = doc.createElement("members");
-						xmlAuraDefinitionBundleMembers.appendChild(doc
-								.createTextNode(auraDefinitionBundleArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlAuraDefinitionBundleMembers.appendChild(doc.createTextNode(auraDefinitionBundleArray
+								.getJSONObject(i).getString("DeveloperName") + "###" + userfullname + "###"
+								+ RestResourceURL.getSuffixDate(
+										auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlAuraDefinitionBundletype.appendChild(xmlAuraDefinitionBundleMembers);
 
 					}
@@ -232,15 +280,24 @@ public class MetadataResource {
 			if (autoResponseArray.length() > 0) {
 				Element xmlautoResponseListtype = doc.createElement("types");
 				xmlroot.appendChild(xmlautoResponseListtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < autoResponseArray.length(); i++) {
 					try {
-						if(uniquecharset.add(autoResponseArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, autoResponseArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(autoResponseArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(autoResponseArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									autoResponseArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(autoResponseArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlautoResponseListMembers = doc.createElement("members");
 						xmlautoResponseListMembers
-								.appendChild(doc.createTextNode(autoResponseArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(autoResponseArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(autoResponseArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												autoResponseArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlautoResponseListtype.appendChild(xmlautoResponseListMembers);
 
 					} catch (Exception e) {
@@ -265,15 +322,25 @@ public class MetadataResource {
 			if (businessProcessArray.length() > 0) {
 				Element xmlbusinessProcesstype = doc.createElement("types");
 				xmlroot.appendChild(xmlbusinessProcesstype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < businessProcessArray.length(); i++) {
 					try {
-						if(uniquecharset.add(businessProcessArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, businessProcessArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap
+								.containsKey(businessProcessArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(businessProcessArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									businessProcessArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(businessProcessArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlbusinessProcessMembers = doc.createElement("members");
-						xmlbusinessProcessMembers.appendChild(
-								doc.createTextNode(businessProcessArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(businessProcessArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlbusinessProcessMembers
+								.appendChild(doc.createTextNode(businessProcessArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												businessProcessArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlbusinessProcesstype.appendChild(xmlbusinessProcessMembers);
 
 					} catch (Exception e) {
@@ -296,16 +363,25 @@ public class MetadataResource {
 			if (compactLayoutArray.length() > 0) {
 				Element xmlcompactLayouttype = doc.createElement("types");
 				xmlroot.appendChild(xmlcompactLayouttype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < compactLayoutArray.length(); i++) {
 					try {
-						if(uniquecharset.add(compactLayoutArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, compactLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(compactLayoutArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(compactLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									compactLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(compactLayoutArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlcompactLayoutMembers = doc.createElement("members");
 						xmlcompactLayoutMembers.appendChild(
 								doc.createTextNode(compactLayoutArray.getJSONObject(i).getString("SobjectType") + "."
-										+ compactLayoutArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(compactLayoutArray.getJSONObject(i).getString("LastModifiedDate"))));
+										+ compactLayoutArray.getJSONObject(i).getString("DeveloperName") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												compactLayoutArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlcompactLayouttype.appendChild(xmlcompactLayoutMembers);
 
 					} catch (Exception e) {
@@ -329,15 +405,25 @@ public class MetadataResource {
 			if (connectedApplicationArray.length() > 0) {
 				Element xmlconnectedApplicationtype = doc.createElement("types");
 				xmlroot.appendChild(xmlconnectedApplicationtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < connectedApplicationArray.length(); i++) {
 					try {
-						if(uniquecharset.add(connectedApplicationArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(
+								connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlconnectedApplicationMembers = doc.createElement("members");
-						xmlconnectedApplicationMembers.appendChild(
-								doc.createTextNode(connectedApplicationArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(connectedApplicationArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlconnectedApplicationMembers.appendChild(doc.createTextNode(connectedApplicationArray
+								.getJSONObject(i).getString("Name") + "###" + userfullname + "###"
+								+ RestResourceURL.getSuffixDate(
+										connectedApplicationArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlconnectedApplicationtype.appendChild(xmlconnectedApplicationMembers);
 
 					} catch (Exception e) {
@@ -361,15 +447,25 @@ public class MetadataResource {
 			if (customApplicationArray.length() > 0) {
 				Element xmlcustomApplicationtype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomApplicationtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < customApplicationArray.length(); i++) {
 					try {
-						if(uniquecharset.add(customApplicationArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, customApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap
+								.containsKey(customApplicationArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(customApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									customApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(customApplicationArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlcustomApplicationMembers = doc.createElement("members");
-						xmlcustomApplicationMembers.appendChild(
-								doc.createTextNode(customApplicationArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(customApplicationArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlcustomApplicationMembers.appendChild(doc.createTextNode(customApplicationArray
+								.getJSONObject(i).getString("DeveloperName") + "###" + userfullname + "###"
+								+ RestResourceURL.getSuffixDate(
+										customApplicationArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlcustomApplicationtype.appendChild(xmlcustomApplicationMembers);
 
 					} catch (Exception e) {
@@ -392,15 +488,24 @@ public class MetadataResource {
 			if (customobjectArray.length() > 0) {
 				Element xmlcustomobjecttype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomobjecttype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < customobjectArray.length(); i++) {
 					try {
-						if(uniquecharset.add(customobjectArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, customobjectArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(customobjectArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(customobjectArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									customobjectArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(customobjectArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlcustomobjectMembers = doc.createElement("members");
-						xmlcustomobjectMembers.appendChild(doc
-								.createTextNode(customobjectArray.getJSONObject(i).getString("DeveloperName") + "__c"+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(customobjectArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlcustomobjectMembers.appendChild(
+								doc.createTextNode(customobjectArray.getJSONObject(i).getString("DeveloperName") + "__c"
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												customobjectArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlcustomobjecttype.appendChild(xmlcustomobjectMembers);
 
 					} catch (Exception e) {
@@ -424,25 +529,37 @@ public class MetadataResource {
 			if (customFieldArray.length() > 0) {
 				Element xmlcustomfieldtype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomfieldtype);
-				HashSet < String> uniqueTableEnumOrId= new HashSet<String>();
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				String customObjectName = "";
-				String userfullname="";
-				HashSet <String> uniqueset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemapobject = new HashMap<String, String>();
 				for (int j = 0; j < customFieldArray.length(); j++) {
 					if (customFieldArray.getJSONObject(j).getString("TableEnumOrId").matches("^[A-Za-z]+[0-9]*"))
 						customObjectName = customFieldArray.getJSONObject(j).getString("TableEnumOrId");
 					else {
-						if(uniqueTableEnumOrId.add(customFieldArray.getJSONObject(j).getString("TableEnumOrId")))
-						{	
-							customObjectName = DataWarehouse.getCustomObjectName(loginObject,customFieldArray.getJSONObject(j).getString("TableEnumOrId"));
+						if (uniquemapobject.containsKey(customFieldArray.getJSONObject(j).getString("TableEnumOrId"))) {
+							customObjectName = uniquemapobject
+									.get(customFieldArray.getJSONObject(j).getString("TableEnumOrId"));
+						} else {
+							customObjectName = DataWarehouse.getCustomObjectName(loginObject,
+									customFieldArray.getJSONObject(j).getString("TableEnumOrId"));
 							customObjectName += "__c";
+							uniquemapobject.put(customFieldArray.getJSONObject(j).getString("TableEnumOrId"),
+									customObjectName);
 						}
 					}
-					if(uniqueset.add(customFieldArray.getJSONObject(j).getString("LastModifiedById")))
-						userfullname = DataWarehouse.getUserFullName(loginObject, customFieldArray.getJSONObject(j).getString("LastModifiedById"));
-				
+					if (uniquemap.containsKey(customFieldArray.getJSONObject(j).getString("LastModifiedById"))) {
+						userfullname = uniquemap.get(customFieldArray.getJSONObject(j).getString("LastModifiedById"));
+					} else {
+						userfullname = DataWarehouse.getUserFullName(loginObject,
+								customFieldArray.getJSONObject(j).getString("LastModifiedById"));
+						uniquemap.put(customFieldArray.getJSONObject(j).getString("LastModifiedById"), userfullname);
+					}
 					Element xmlcustomfieldMembers = doc.createElement("members");
-					xmlcustomfieldMembers.appendChild(doc.createTextNode(customObjectName + "."+ customFieldArray.getJSONObject(j).getString("DeveloperName") + "__c"+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(customFieldArray.getJSONObject(j).getString("LastModifiedDate"))));
+					xmlcustomfieldMembers.appendChild(doc.createTextNode(
+							customObjectName + "." + customFieldArray.getJSONObject(j).getString("DeveloperName")
+									+ "__c" + "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+											customFieldArray.getJSONObject(j).getString("LastModifiedDate"))));
 					xmlcustomfieldtype.appendChild(xmlcustomfieldMembers);
 
 				}
@@ -455,7 +572,6 @@ public class MetadataResource {
 
 	}
 
-
 	public void getCustomTab(JSONObject loginObject, String sfdcuserid, String startdate, String enddate)
 			throws Exception {
 
@@ -464,17 +580,24 @@ public class MetadataResource {
 			if (customTabArray.length() > 0) {
 				Element xmlcustomTabtype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomTabtype);
-				String userfullname="";
-				HashSet <String> uniqueset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < customTabArray.length(); i++) {
 					try {
-						JSONArray customTabFullname = DataWarehouse.getFullname("CustomTab",customTabArray.getJSONObject(i).getString("Id"), loginObject);
-						if(uniqueset.add(customTabArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, customTabArray.getJSONObject(i).getString("LastModifiedById"));
-					
+						JSONArray customTabFullname = DataWarehouse.getFullname("CustomTab",
+								customTabArray.getJSONObject(i).getString("Id"), loginObject);
+						if (uniquemap.containsKey(customTabArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(customTabArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									customTabArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(customTabArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlcustomTabMembers = doc.createElement("members");
-						xmlcustomTabMembers.appendChild(
-								doc.createTextNode(customTabFullname.getJSONObject(0).getString("FullName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(customTabArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlcustomTabMembers
+								.appendChild(doc.createTextNode(customTabFullname.getJSONObject(0).getString("FullName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												customTabArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlcustomTabtype.appendChild(xmlcustomTabMembers);
 
 					} catch (Exception e) {
@@ -497,15 +620,22 @@ public class MetadataResource {
 			if (dashboardArray.length() > 0) {
 				Element xmldashboardtype = doc.createElement("types");
 				xmlroot.appendChild(xmldashboardtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < dashboardArray.length(); i++) {
 					try {
-						if(uniquecharset.add(dashboardArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, dashboardArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(dashboardArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(dashboardArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									dashboardArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(dashboardArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmldashboardMembers = doc.createElement("members");
 						xmldashboardMembers.appendChild(
-								doc.createTextNode(dashboardArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(dashboardArray.getJSONObject(i).getString("LastModifiedDate"))));
+								doc.createTextNode(dashboardArray.getJSONObject(i).getString("DeveloperName") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												dashboardArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmldashboardtype.appendChild(xmldashboardMembers);
 
 					} catch (Exception e) {
@@ -528,15 +658,24 @@ public class MetadataResource {
 			if (emailTemplateArray.length() > 0) {
 				Element xmlemailTemplateListtype = doc.createElement("types");
 				xmlroot.appendChild(xmlemailTemplateListtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < emailTemplateArray.length(); i++) {
 					try {
-						if(uniquecharset.add(emailTemplateArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, emailTemplateArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(emailTemplateArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(emailTemplateArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									emailTemplateArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(emailTemplateArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlemailTemplateListMembers = doc.createElement("members");
 						xmlemailTemplateListMembers
-								.appendChild(doc.createTextNode(emailTemplateArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(emailTemplateArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(emailTemplateArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												emailTemplateArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlemailTemplateListtype.appendChild(xmlemailTemplateListMembers);
 
 					} catch (Exception e) {
@@ -559,15 +698,22 @@ public class MetadataResource {
 			if (fieldSetArray.length() > 0) {
 				Element xmlfieldSettype = doc.createElement("types");
 				xmlroot.appendChild(xmlfieldSettype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < fieldSetArray.length(); i++) {
 					try {
-						if(uniquecharset.add(fieldSetArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, fieldSetArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(fieldSetArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(fieldSetArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									fieldSetArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(fieldSetArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlfieldSetMembers = doc.createElement("members");
 						xmlfieldSetMembers.appendChild(
-								doc.createTextNode(fieldSetArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(fieldSetArray.getJSONObject(i).getString("LastModifiedDate"))));
+								doc.createTextNode(fieldSetArray.getJSONObject(i).getString("DeveloperName") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												fieldSetArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlfieldSettype.appendChild(xmlfieldSetMembers);
 
 					} catch (Exception e) {
@@ -590,15 +736,22 @@ public class MetadataResource {
 			if (flexiPageArray.length() > 0) {
 				Element xmlflexiPageListtype = doc.createElement("types");
 				xmlroot.appendChild(xmlflexiPageListtype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < flexiPageArray.length(); i++) {
 					try {
-						if(uniquecharset.add(flexiPageArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, flexiPageArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(flexiPageArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(flexiPageArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									flexiPageArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(flexiPageArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlflexiPageListMembers = doc.createElement("members");
 						xmlflexiPageListMembers.appendChild(
-								doc.createTextNode(flexiPageArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(flexiPageArray.getJSONObject(i).getString("LastModifiedDate"))));
+								doc.createTextNode(flexiPageArray.getJSONObject(i).getString("DeveloperName") + "###"
+										+ userfullname + "###" + RestResourceURL.getSuffixDate(
+												flexiPageArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlflexiPageListtype.appendChild(xmlflexiPageListMembers);
 
 					} catch (Exception e) {
@@ -620,19 +773,25 @@ public class MetadataResource {
 			if (flowArray.length() > 0) {
 				Element xmlflowtype = doc.createElement("types");
 				xmlroot.appendChild(xmlflowtype);
-				String userfullname="";
-				HashSet <String> uniqueset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < flowArray.length(); i++) {
 					try {
 						JSONArray flowFullname = DataWarehouse.getFullname("Flow",
 								flowArray.getJSONObject(i).getString("Id"), loginObject);
-						
-						if(uniqueset.add(flowArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, flowArray.getJSONObject(i).getString("LastModifiedById"));
-					
+
+						if (uniquemap.containsKey(flowArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(flowArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									flowArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(flowArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlflowMembers = doc.createElement("members");
 						xmlflowMembers
-								.appendChild(doc.createTextNode(flowFullname.getJSONObject(0).getString("FullName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(flowArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(flowFullname.getJSONObject(0).getString("FullName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												flowArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlflowtype.appendChild(xmlflowMembers);
 
 					} catch (Exception e) {
@@ -656,15 +815,24 @@ public class MetadataResource {
 			if (globalValueSetArray.length() > 0) {
 				Element xmlglobalValueSettype = doc.createElement("types");
 				xmlroot.appendChild(xmlglobalValueSettype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < globalValueSetArray.length(); i++) {
 					try {
-						if(uniquecharset.add(globalValueSetArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, globalValueSetArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(globalValueSetArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(globalValueSetArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									globalValueSetArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(globalValueSetArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlglobalValueSetMembers = doc.createElement("members");
 						xmlglobalValueSetMembers.appendChild(
-								doc.createTextNode(globalValueSetArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(globalValueSetArray.getJSONObject(i).getString("LastModifiedDate"))));
+								doc.createTextNode(globalValueSetArray.getJSONObject(i).getString("DeveloperName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												globalValueSetArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlglobalValueSettype.appendChild(xmlglobalValueSetMembers);
 
 					} catch (Exception e) {
@@ -687,15 +855,24 @@ public class MetadataResource {
 			if (homePageLayoutArray.length() > 0) {
 				Element xmlhomePageLayouttype = doc.createElement("types");
 				xmlroot.appendChild(xmlhomePageLayouttype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < homePageLayoutArray.length(); i++) {
 					try {
-						if(uniquecharset.add(homePageLayoutArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlhomePageLayoutMembers = doc.createElement("members");
-						xmlhomePageLayoutMembers.appendChild(
-								doc.createTextNode(homePageLayoutArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(homePageLayoutArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlhomePageLayoutMembers
+								.appendChild(doc.createTextNode(homePageLayoutArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												homePageLayoutArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlhomePageLayouttype.appendChild(xmlhomePageLayoutMembers);
 
 					} catch (Exception e) {
@@ -718,27 +895,36 @@ public class MetadataResource {
 			if (layoutArray.length() > 0) {
 				Element xmlcustomfieldtype = doc.createElement("types");
 				xmlroot.appendChild(xmlcustomfieldtype);
-				String userfullname="";
-				HashSet <String> uniqueset= new HashSet<String>();
-				HashSet <String> uniqueTableEnumOrId= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				String customObjectName = "";
 				for (int j = 0; j < layoutArray.length(); j++) {
 					if (layoutArray.getJSONObject(j).getString("TableEnumOrId").matches("^[A-Za-z]+[0-9]*"))
 						customObjectName = layoutArray.getJSONObject(j).getString("TableEnumOrId");
 					else {
-						if(uniqueTableEnumOrId.add(layoutArray.getJSONObject(j).getString("TableEnumOrId")))
-						{
-							customObjectName = DataWarehouse.getCustomObjectName(loginObject,layoutArray.getJSONObject(j).getString("TableEnumOrId"));
+						if (uniquemap.containsKey(layoutArray.getJSONObject(j).getString("TableEnumOrId"))) {
+							customObjectName = uniquemap.get(layoutArray.getJSONObject(j).getString("TableEnumOrId"));
+						} else {
+							customObjectName = DataWarehouse.getCustomObjectName(loginObject,
+									layoutArray.getJSONObject(j).getString("TableEnumOrId"));
 							customObjectName += "__c";
+							uniquemap.put(layoutArray.getJSONObject(j).getString("TableEnumOrId"), customObjectName);
 						}
+
 					}
-				
-					if(uniqueset.add(layoutArray.getJSONObject(j).getString("LastModifiedById")))
-						userfullname = DataWarehouse.getUserFullName(loginObject, layoutArray.getJSONObject(j).getString("LastModifiedById"));
-				
+
+					if (uniquemap.containsKey(layoutArray.getJSONObject(j).getString("LastModifiedById"))) {
+						userfullname = uniquemap.get(layoutArray.getJSONObject(j).getString("LastModifiedById"));
+					} else {
+						userfullname = DataWarehouse.getUserFullName(loginObject,
+								layoutArray.getJSONObject(j).getString("LastModifiedById"));
+						uniquemap.put(layoutArray.getJSONObject(j).getString("LastModifiedById"), userfullname);
+					}
 					Element xmlcustomfieldMembers = doc.createElement("members");
-					xmlcustomfieldMembers.appendChild(doc
-							.createTextNode(customObjectName + "." + layoutArray.getJSONObject(j).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(layoutArray.getJSONObject(j).getString("LastModifiedDate"))));
+					xmlcustomfieldMembers.appendChild(
+							doc.createTextNode(customObjectName + "." + layoutArray.getJSONObject(j).getString("Name")
+									+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+											layoutArray.getJSONObject(j).getString("LastModifiedDate"))));
 					xmlcustomfieldtype.appendChild(xmlcustomfieldMembers);
 
 				}
@@ -750,6 +936,7 @@ public class MetadataResource {
 		}
 
 	}
+
 	public void getPermission(JSONObject loginObject, String sfdcuserid, String startdate, String enddate)
 			throws Exception {
 
@@ -758,15 +945,24 @@ public class MetadataResource {
 			if (permissionSetArray.length() > 0) {
 				Element xmlpermissionSettype = doc.createElement("types");
 				xmlroot.appendChild(xmlpermissionSettype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < permissionSetArray.length(); i++) {
 					try {
-						if(uniquecharset.add(permissionSetArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, permissionSetArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(permissionSetArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(permissionSetArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									permissionSetArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(permissionSetArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlpermissionSetMembers = doc.createElement("members");
 						xmlpermissionSetMembers
-								.appendChild(doc.createTextNode(permissionSetArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(permissionSetArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(permissionSetArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												permissionSetArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlpermissionSettype.appendChild(xmlpermissionSetMembers);
 
 					} catch (Exception e) {
@@ -789,15 +985,21 @@ public class MetadataResource {
 			if (profileArray.length() > 0) {
 				Element xmlprofiletype = doc.createElement("types");
 				xmlroot.appendChild(xmlprofiletype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < profileArray.length(); i++) {
 					try {
-						if(uniquecharset.add(profileArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, profileArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(profileArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(profileArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									profileArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(profileArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlprofileMembers = doc.createElement("members");
-						xmlprofileMembers
-								.appendChild(doc.createTextNode(profileArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(profileArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlprofileMembers.appendChild(doc.createTextNode(profileArray.getJSONObject(i).getString("Name")
+								+ "###" + userfullname + "###" + RestResourceURL
+										.getSuffixDate(profileArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlprofiletype.appendChild(xmlprofileMembers);
 
 					} catch (Exception e) {
@@ -820,15 +1022,23 @@ public class MetadataResource {
 			if (recordTypeArray.length() > 0) {
 				Element xmlrecordTypetype = doc.createElement("types");
 				xmlroot.appendChild(xmlrecordTypetype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < recordTypeArray.length(); i++) {
 					try {
-						if(uniquecharset.add(recordTypeArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, recordTypeArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(recordTypeArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(recordTypeArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									recordTypeArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(recordTypeArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlrecordTypeMembers = doc.createElement("members");
 						xmlrecordTypeMembers
-								.appendChild(doc.createTextNode(recordTypeArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(recordTypeArray.getJSONObject(i).getString("LastModifiedDate"))));
+								.appendChild(doc.createTextNode(recordTypeArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												recordTypeArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlrecordTypetype.appendChild(xmlrecordTypeMembers);
 
 					} catch (Exception e) {
@@ -851,15 +1061,22 @@ public class MetadataResource {
 			if (reportArray.length() > 0) {
 				Element xmlreporttype = doc.createElement("types");
 				xmlroot.appendChild(xmlreporttype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < reportArray.length(); i++) {
 					try {
-						if(uniquecharset.add(reportArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, reportArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(reportArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(reportArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									reportArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(reportArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlreportMembers = doc.createElement("members");
-						xmlreportMembers.appendChild(
-								doc.createTextNode(reportArray.getJSONObject(i).getString("DeveloperName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(reportArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlreportMembers
+								.appendChild(doc.createTextNode(reportArray.getJSONObject(i).getString("DeveloperName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												reportArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlreporttype.appendChild(xmlreportMembers);
 
 					} catch (Exception e) {
@@ -882,15 +1099,24 @@ public class MetadataResource {
 			if (staticResourceArray.length() > 0) {
 				Element xmlstaticResourcetype = doc.createElement("types");
 				xmlroot.appendChild(xmlstaticResourcetype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < staticResourceArray.length(); i++) {
 					try {
-						if(uniquecharset.add(staticResourceArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, staticResourceArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(staticResourceArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(staticResourceArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									staticResourceArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(staticResourceArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlstaticResourceMembers = doc.createElement("members");
-						xmlstaticResourceMembers.appendChild(
-								doc.createTextNode(staticResourceArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(staticResourceArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlstaticResourceMembers
+								.appendChild(doc.createTextNode(staticResourceArray.getJSONObject(i).getString("Name")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												staticResourceArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlstaticResourcetype.appendChild(xmlstaticResourceMembers);
 
 					} catch (Exception e) {
@@ -912,14 +1138,21 @@ public class MetadataResource {
 			if (UserArray.length() > 0) {
 				Element xmlUserType = doc.createElement("types");
 				xmlroot.appendChild(xmlUserType);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < UserArray.length(); i++) {
 					try {
-						if(uniquecharset.add(UserArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, UserArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(UserArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(UserArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									UserArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(UserArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlUserMembers = doc.createElement("members");
-						xmlUserMembers.appendChild(doc.createTextNode(UserArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(UserArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlUserMembers.appendChild(doc.createTextNode(UserArray.getJSONObject(i).getString("Name")
+								+ "###" + userfullname + "###" + RestResourceURL
+										.getSuffixDate(UserArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlUserType.appendChild(xmlUserMembers);
 
 					} catch (Exception e) {
@@ -943,16 +1176,25 @@ public class MetadataResource {
 			if (validationRuleArray.length() > 0) {
 				Element xmlvalidationRuletype = doc.createElement("types");
 				xmlroot.appendChild(xmlvalidationRuletype);
-				String userfullname="";
-				HashSet <String> uniqueset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < validationRuleArray.length(); i++) {
 					try {
-					String objectname = DataWarehouse.getValidationRuleObjectName(loginObject,validationRuleArray.getJSONObject(i).getString("Id"));
-					if(uniqueset.add(validationRuleArray.getJSONObject(i).getString("LastModifiedById")))
-						userfullname = DataWarehouse.getUserFullName(loginObject, validationRuleArray.getJSONObject(i).getString("LastModifiedById"));
-				
-					Element xmlvalidationRuleMembers = doc.createElement("members");
-						xmlvalidationRuleMembers.appendChild(doc.createTextNode(objectname+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(validationRuleArray.getJSONObject(i).getString("LastModifiedDate"))));
+						String objectname = DataWarehouse.getValidationRuleObjectName(loginObject,
+								validationRuleArray.getJSONObject(i).getString("Id"));
+						if (uniquemap.containsKey(validationRuleArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(validationRuleArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									validationRuleArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(validationRuleArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
+						Element xmlvalidationRuleMembers = doc.createElement("members");
+						xmlvalidationRuleMembers.appendChild(doc.createTextNode(
+								objectname + "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+										validationRuleArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlvalidationRuletype.appendChild(xmlvalidationRuleMembers);
 
 					} catch (Exception e) {
@@ -967,7 +1209,6 @@ public class MetadataResource {
 
 	}
 
-
 	public void getWebLink(JSONObject loginObject, String sfdcuserid, String startdate, String enddate)
 			throws Exception {
 
@@ -976,15 +1217,21 @@ public class MetadataResource {
 			if (WebLinArray.length() > 0) {
 				Element xmlWebLinkType = doc.createElement("types");
 				xmlroot.appendChild(xmlWebLinkType);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < WebLinArray.length(); i++) {
 					try {
-						if(uniquecharset.add(WebLinArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, WebLinArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(WebLinArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap.get(WebLinArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									WebLinArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(WebLinArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlWebLinkMembers = doc.createElement("members");
-						xmlWebLinkMembers
-								.appendChild(doc.createTextNode(WebLinArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(WebLinArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlWebLinkMembers.appendChild(doc.createTextNode(WebLinArray.getJSONObject(i).getString("Name")
+								+ "###" + userfullname + "###" + RestResourceURL
+										.getSuffixDate(WebLinArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlWebLinkType.appendChild(xmlWebLinkMembers);
 
 					} catch (Exception e) {
@@ -1008,18 +1255,26 @@ public class MetadataResource {
 				Element xmlobjWorkFlowAlerttype = doc.createElement("types");
 				xmlroot.appendChild(xmlobjWorkFlowAlerttype);
 				try {
-					String userfullname="";
-					HashSet <String> uniqueset= new HashSet<String>();
+					String userfullname = "";
+					HashMap<String, String> uniquemap = new HashMap<String, String>();
 					for (int k = 0; k < objWorkFlowAlert.length(); k++) {
 						JSONArray jsonworkflowaler = DataWarehouse.getFullname("WorkFlowAlert",
 								objWorkFlowAlert.getJSONObject(k).getString("Id"), loginObject);
-						
-						if(uniqueset.add(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"));
-					
+
+						if (uniquemap.containsKey(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"));
+							uniquemap.put(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlobjworkFlowAlertMembers = doc.createElement("members");
-						xmlobjworkFlowAlertMembers.appendChild(
-								doc.createTextNode(jsonworkflowaler.getJSONObject(0).getString("FullName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedDate"))));
+						xmlobjworkFlowAlertMembers
+								.appendChild(doc.createTextNode(jsonworkflowaler.getJSONObject(0).getString("FullName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												objWorkFlowAlert.getJSONObject(k).getString("LastModifiedDate"))));
 						xmlobjWorkFlowAlerttype.appendChild(xmlobjworkFlowAlertMembers);
 
 					}
@@ -1034,7 +1289,6 @@ public class MetadataResource {
 
 	}
 
-
 	public void getWorkFlowFieldUpdate(JSONObject loginObject, String sfdcuserid, String startdate, String enddate)
 			throws Exception {
 
@@ -1044,16 +1298,26 @@ public class MetadataResource {
 			if (workflowFieldUpdateArray.length() > 0) {
 				Element xmlworkflowFieldUpdatetype = doc.createElement("types");
 				xmlroot.appendChild(xmlworkflowFieldUpdatetype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < workflowFieldUpdateArray.length(); i++) {
 					try {
-						if(uniquecharset.add(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap
+								.containsKey(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlworkflowFieldUpdateMembers = doc.createElement("members");
-						xmlworkflowFieldUpdateMembers.appendChild(doc.createTextNode(
-								workflowFieldUpdateArray.getJSONObject(i).getString("SourceTableEnumOrId") + "."
-										+ workflowFieldUpdateArray.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedDate"))));
+						xmlworkflowFieldUpdateMembers.appendChild(doc.createTextNode(workflowFieldUpdateArray
+								.getJSONObject(i).getString("SourceTableEnumOrId") + "."
+								+ workflowFieldUpdateArray.getJSONObject(i).getString("Name") + "###" + userfullname
+								+ "###" + RestResourceURL.getSuffixDate(
+										workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlworkflowFieldUpdatetype.appendChild(xmlworkflowFieldUpdateMembers);
 
 					} catch (Exception e) {
@@ -1076,16 +1340,25 @@ public class MetadataResource {
 			if (workflowRuleList.length() > 0) {
 				Element xmlworkflowRuletype = doc.createElement("types");
 				xmlroot.appendChild(xmlworkflowRuletype);
-				String userfullname="";
-				HashSet <String> uniquecharset= new HashSet<String>();
+				String userfullname = "";
+				HashMap<String, String> uniquemap = new HashMap<String, String>();
 				for (int i = 0; i < workflowRuleList.length(); i++) {
 					try {
-						if(uniquecharset.add(workflowRuleList.getJSONObject(i).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, workflowRuleList.getJSONObject(i).getString("LastModifiedById"));
+						if (uniquemap.containsKey(workflowRuleList.getJSONObject(i).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(workflowRuleList.getJSONObject(i).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									workflowRuleList.getJSONObject(i).getString("LastModifiedById"));
+							uniquemap.put(workflowRuleList.getJSONObject(i).getString("LastModifiedById"),
+									userfullname);
+						}
 						Element xmlworkflowRuleMembers = doc.createElement("members");
 						xmlworkflowRuleMembers.appendChild(
 								doc.createTextNode(workflowRuleList.getJSONObject(i).getString("TableEnumOrId") + "."
-										+ workflowRuleList.getJSONObject(i).getString("Name")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(workflowRuleList.getJSONObject(i).getString("LastModifiedDate"))));
+										+ workflowRuleList.getJSONObject(i).getString("Name") + "###" + userfullname
+										+ "###" + RestResourceURL.getSuffixDate(
+												workflowRuleList.getJSONObject(i).getString("LastModifiedDate"))));
 						xmlworkflowRuletype.appendChild(xmlworkflowRuleMembers);
 
 					} catch (Exception e) {
@@ -1109,17 +1382,24 @@ public class MetadataResource {
 				Element xmlobjWorkFlowTasktype = doc.createElement("types");
 				xmlroot.appendChild(xmlobjWorkFlowTasktype);
 				try {
-					String userfullname="";
-					HashSet <String> uniqueset= new HashSet<String>();
+					String userfullname = "";
+					HashMap<String, String> uniquemap = new HashMap<String, String>();
 					for (int k = 0; k < objWorkFlowTask.length(); k++) {
 						JSONArray jsonworkflowaler = DataWarehouse.getFullname("WorkFlowTask",
 								objWorkFlowTask.getJSONObject(k).getString("Id"), loginObject);
-						if(uniqueset.add(objWorkFlowTask.getJSONObject(k).getString("LastModifiedById")))
-							userfullname = DataWarehouse.getUserFullName(loginObject, objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"));
-					
+						if (uniquemap.containsKey(objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"))) {
+							userfullname = uniquemap
+									.get(objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"));
+						} else {
+							userfullname = DataWarehouse.getUserFullName(loginObject,
+									objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"));
+							uniquemap.put(objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"), userfullname);
+						}
 						Element xmlobjWorkFlowTaskMembers = doc.createElement("members");
-						xmlobjWorkFlowTaskMembers.appendChild(
-								doc.createTextNode(jsonworkflowaler.getJSONObject(0).getString("FullName")+"###"+userfullname+"###"+RestResourceURL.getSuffixDate(objWorkFlowTask.getJSONObject(k).getString("LastModifiedDate"))));
+						xmlobjWorkFlowTaskMembers
+								.appendChild(doc.createTextNode(jsonworkflowaler.getJSONObject(0).getString("FullName")
+										+ "###" + userfullname + "###" + RestResourceURL.getSuffixDate(
+												objWorkFlowTask.getJSONObject(k).getString("LastModifiedDate"))));
 						xmlobjWorkFlowTasktype.appendChild(xmlobjWorkFlowTaskMembers);
 
 					}
@@ -1134,9 +1414,8 @@ public class MetadataResource {
 
 	}
 
-
 	public File saveXml() throws TransformerException {
-		
+
 		File file = XmlDocumetRes.xmlDocEnd(doc, xmlroot);
 		return file;
 	}
