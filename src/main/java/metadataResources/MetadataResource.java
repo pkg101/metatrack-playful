@@ -950,8 +950,7 @@ public class MetadataResource {
 							customObjectName = DataWarehouse.getCustomObjectName(loginObject,
 									layoutArray.getJSONObject(j).getString("TableEnumOrId"));
 							customObjectName += "__c";
-							if(userfullname==null)
-								userfullname="";
+							
 							uniquemap.put(layoutArray.getJSONObject(j).getString("TableEnumOrId"), customObjectName);
 						}
 
@@ -962,6 +961,8 @@ public class MetadataResource {
 					} else {
 						userfullname = DataWarehouse.getUserFullName(loginObject,
 								layoutArray.getJSONObject(j).getString("LastModifiedById"));
+						if(userfullname==null)
+							userfullname="";
 						uniquemap.put(layoutArray.getJSONObject(j).getString("LastModifiedById"), userfullname);
 					}
 					Element xmlcustomfieldMembers = doc.createElement("members");
