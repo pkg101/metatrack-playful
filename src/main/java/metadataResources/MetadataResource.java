@@ -48,6 +48,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									apexclassArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(apexclassArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlapexclassMembers = doc.createElement("members");
@@ -88,6 +90,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									apexTriggerArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(apexTriggerArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -127,6 +131,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									apexPageArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(apexPageArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlapexPageMembers = doc.createElement("members");
@@ -166,6 +172,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									apexComponentArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(apexComponentArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -207,6 +215,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(assignmentRuleArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -250,6 +260,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(auraDefinitionBundleArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -290,6 +302,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									autoResponseArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(autoResponseArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -333,6 +347,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									businessProcessArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(businessProcessArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -373,6 +389,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									compactLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(compactLayoutArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -416,6 +434,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(connectedApplicationArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -458,6 +478,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									customApplicationArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(customApplicationArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -498,6 +520,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									customobjectArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(customobjectArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -553,6 +577,8 @@ public class MetadataResource {
 					} else {
 						userfullname = DataWarehouse.getUserFullName(loginObject,
 								customFieldArray.getJSONObject(j).getString("LastModifiedById"));
+						if(userfullname==null)
+							userfullname="";
 						uniquemap.put(customFieldArray.getJSONObject(j).getString("LastModifiedById"), userfullname);
 					}
 					Element xmlcustomfieldMembers = doc.createElement("members");
@@ -591,6 +617,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									customTabArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(customTabArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlcustomTabMembers = doc.createElement("members");
@@ -629,6 +657,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									dashboardArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(dashboardArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmldashboardMembers = doc.createElement("members");
@@ -668,6 +698,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									emailTemplateArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(emailTemplateArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -707,6 +739,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									fieldSetArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(fieldSetArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlfieldSetMembers = doc.createElement("members");
@@ -745,6 +779,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									flexiPageArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(flexiPageArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlflexiPageListMembers = doc.createElement("members");
@@ -785,6 +821,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									flowArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(flowArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlflowMembers = doc.createElement("members");
@@ -825,6 +863,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									globalValueSetArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(globalValueSetArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -865,6 +905,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(homePageLayoutArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -908,6 +950,8 @@ public class MetadataResource {
 							customObjectName = DataWarehouse.getCustomObjectName(loginObject,
 									layoutArray.getJSONObject(j).getString("TableEnumOrId"));
 							customObjectName += "__c";
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(layoutArray.getJSONObject(j).getString("TableEnumOrId"), customObjectName);
 						}
 
@@ -955,6 +999,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									permissionSetArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(permissionSetArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -994,6 +1040,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									profileArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(profileArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlprofileMembers = doc.createElement("members");
@@ -1032,6 +1080,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									recordTypeArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(recordTypeArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlrecordTypeMembers = doc.createElement("members");
@@ -1070,6 +1120,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									reportArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(reportArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlreportMembers = doc.createElement("members");
@@ -1109,6 +1161,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									staticResourceArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(staticResourceArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -1147,6 +1201,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									UserArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(UserArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlUserMembers = doc.createElement("members");
@@ -1188,6 +1244,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									validationRuleArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(validationRuleArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -1226,6 +1284,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									WebLinArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(WebLinArray.getJSONObject(i).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlWebLinkMembers = doc.createElement("members");
@@ -1267,6 +1327,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(objWorkFlowAlert.getJSONObject(k).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -1309,6 +1371,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(workflowFieldUpdateArray.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -1350,6 +1414,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									workflowRuleList.getJSONObject(i).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(workflowRuleList.getJSONObject(i).getString("LastModifiedById"),
 									userfullname);
 						}
@@ -1393,6 +1459,8 @@ public class MetadataResource {
 						} else {
 							userfullname = DataWarehouse.getUserFullName(loginObject,
 									objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"));
+							if(userfullname==null)
+								userfullname="";
 							uniquemap.put(objWorkFlowTask.getJSONObject(k).getString("LastModifiedById"), userfullname);
 						}
 						Element xmlobjWorkFlowTaskMembers = doc.createElement("members");

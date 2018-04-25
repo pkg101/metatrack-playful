@@ -38,6 +38,7 @@ public class PsqlDataHouse {
 		try {
 			DBManager.loadDriver();
 			String jsondata = jsonobject.toString().replaceAll("\'","");
+			jsondata = jsonobject.toString().replaceAll("&","&amp;");
 			int row = DBManager.CreUpDel("update sfdcmetadata set metadata ='" + jsondata
 					+ "',status='true' where datakey='" + sfdcusername + "' and status='false'");
 			DBManager.close();
